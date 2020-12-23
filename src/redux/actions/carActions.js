@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from './actionTypes';
+import { FETCH_ALL, VIEW_CAR, CREATE, UPDATE, DELETE, FAVORITE } from './actionTypes';
 import axios from 'axios';
 
 export const getCars = () => {
@@ -13,3 +13,13 @@ export const getCars = () => {
       })
   };
 };
+
+export function getCar(id) {
+  return dispatch => {
+    axios.get(`http://localhost:3001/cars/${id}`, { mode: 'cors' })
+      .then(res => {
+        const car = res.data;
+        dispatch({ type: VIEW_CAR, car });
+      });
+  };
+}
