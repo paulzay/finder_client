@@ -3,9 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Switch, Route} from 'react-router-dom'
-import Login from '../Login';
-import Signup from '../Signup';
-// import Home from './Home';
+import Login from '../components/Login/Login';
+import Signup from '../components/Signup/Signup';
 import Cars from '../components/Cars/Cars';
 import Car from '../components/CarView/Car';
 import Nav from '../containers/Nav/Nav';
@@ -14,7 +13,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      isLoggedIn: false,
+      isLoggedIn: false, 
       user: {}
      };
   }
@@ -27,6 +26,8 @@ loginStatus = () => {
 .then(response => {
     if (response.data.logged_in) {
       this.handleLogin(response)
+      console.log('logged in')
+      console.log(response.data)
     } else {
       this.handleLogout()
     }
