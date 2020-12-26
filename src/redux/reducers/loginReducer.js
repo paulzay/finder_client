@@ -12,7 +12,6 @@ const login = (state = initialState, action) => {
                 ...state,
                 isLoading: true,
             };
-
         case 'LOGIN_USER_SUCCESS': {
             return {
                 ...state,
@@ -21,8 +20,6 @@ const login = (state = initialState, action) => {
                 user: action.response,
             };
         }
-
-
         case 'LOGIN_USER_FAILURE':
             return {
                 ...state,
@@ -35,8 +32,8 @@ const login = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: false,
+                user: {},
             };
-
         default:
             return { ...state };
     }

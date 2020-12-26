@@ -11,9 +11,10 @@ export const loginFailure = error => ({
 export const loginUser = (user, history) => dispatch => {
   dispatch({ type: 'LOGIN_USER' });
   return axios
-    .post('http://localhost:3001/login/', user)
+    .post('http://localhost:3001/login/', user, {withCredentials: true})
     .then(response => {
       dispatch(loginSuccess(response.user));
+      localStorage.setItem("user", JSON.stringify(response.data.user.username));
       history.push('/');
     })
     .catch(error => {
@@ -21,11 +22,23 @@ export const loginUser = (user, history) => dispatch => {
     });
 };
 
-export const logout = () => ({
-  type: 'LOGIN_USER_LOGOUT',
+export const logout = (response) => ({
+  type: 'LOGOUT',
+  response,
 });
 
-export const logoutUser = () => dispatch => dispatch(logout());
+export const logoutUser = (user) => dispatch => {
+  return axios
+    .get('http://localhost:3001/logged_in/', user, {withCredentials: true})
+    .then(response => {
+        if (response.data.logged_in) {
+          dispatch(logout())
+          // this.handleLogin(response)
+          console.log('logged out')
+          console.log(response.data)
+        } 
+    })
+};
 
 export const signupSuccess = response => ({
   type: 'SIGNUP_SUCCESS',
@@ -40,7 +53,7 @@ export const signupFailure = error => ({
 export const signUpUser = user => async dispatch => {
   dispatch({ type: 'SIGNUP_USER' });
   return axios
-    .post('http://localhost:3001/users', user)
+    .post('http://localhost:3001/users', user, {withCredentials: true})
     .then(response => {
       dispatch(signupSuccess(response.user));
       
