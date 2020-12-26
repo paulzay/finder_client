@@ -1,5 +1,3 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../actions/actionTypes';
-
 const initialState = {
   cars: [],
   car: {}
@@ -7,7 +5,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_ALL:
+    case 'FETCH_ALL':
       return {
         ...state,
         cars: action.cars,
