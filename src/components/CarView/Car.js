@@ -41,6 +41,7 @@ Car.propTypes = {
 const mapStateToProps = state => ({
   _car: state.cars.car,
 });
+
 export default connect(mapStateToProps, {
   getCar,
 })(Car);

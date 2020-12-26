@@ -17,7 +17,7 @@ function Cars({ cars, getCars }) {
       <ul>
         {cars.map(car => (
         <Card className="card" key={car.id}>
-          <a href={`/cars/${car.id}`}>
+          <a href={`/${car.id}`}>
             <img className="card-img-top" src={car.image_url} alt="Thumb" />
           </a>
         </Card>))}
