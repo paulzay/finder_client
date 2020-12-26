@@ -2,19 +2,23 @@ import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { logoutUser } from '../../redux/actions/userActions';
 
-const LoggedInLinks = () =>{
-  return(
-  <div className="custom-nav-lo">
-    <NavLink className="nav-link" to="/signup">
-      bitch
-    </NavLink>
-    <NavLink className="nav-link" onClick={this.props.handleLogout} to="/logout">
-      Logout
-    </NavLink>
-  </div>
+function LoggedInLinks({ logoutUser: userLogout }){
+  const handleLogout = () => {
+    localStorage.clear();
+    userLogout();
+  };
+
+  return (
+    <div className="custom-nav-lo">
+      <NavLink className="nav-link" to="/signup">
+        Profile
+      </NavLink>
+      <NavLink className="nav-link" onClick={handleLogout} to="/">
+        Logout
+      </NavLink>
+    </div>
   )
 }
 LoggedInLinks.propTypes = {
@@ -24,12 +28,11 @@ LoggedInLinks.propTypes = {
 
 LoggedInLinks.defaultProps = {
   history: {},
-  notifications: {},
 };
 
 const mapStateToProps = state => ({
   login: state.loginUser,
-  error: state.LoginReducer.error,
+  error: state.login.error,
 
 });
 
