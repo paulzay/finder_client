@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function LoggedOutLinks() {
     return (
-  <div className="custom-nav-lo">
+  <div className="links">
     <NavLink className="nav-link" to="/signup">
       SignUp
     </NavLink>

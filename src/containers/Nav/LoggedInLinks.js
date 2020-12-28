@@ -3,6 +3,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logoutUser } from '../../redux/actions/userActions';
+import './loggedin.scss';
 
 function LoggedInLinks({ logoutUser: userLogout }){
   const handleLogout = () => {
@@ -11,11 +12,11 @@ function LoggedInLinks({ logoutUser: userLogout }){
   };
 
   return (
-    <div className="custom-nav-lo">
-      <NavLink className="nav-link" to="/signup">
+    <div className="links">
+      <NavLink className="" to="/signup">
         Profile
       </NavLink>
-      <NavLink className="nav-link" onClick={handleLogout} to="/">
+      <NavLink className="" onClick={handleLogout} to="/">
         Logout
       </NavLink>
     </div>
