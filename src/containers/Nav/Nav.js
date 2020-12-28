@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import LoggedInLinks from './LoggedInLinks';
 import LoggedOutLinks from './LoggedOutLinks';
-import isLoggedIn from '../../utils'
+import './nav.scss';
+// import isLoggedIn from '../../utils'
+
 const Nav = ({ login }) => {
 
   const links = login.isLoggedIn ? <LoggedInLinks /> : <LoggedOutLinks />;
   return (
     <nav>
-      <NavLink to="/">AutoFinder</NavLink>
+      <NavLink className="logo" to="/">AutoFinder</NavLink>
       <div>
-        <ul className="navbar-nav ml-auto">{links}</ul>
+        <ul className="links">{links}</ul>
       </div>
     </nav>
-
   );
 }
 
