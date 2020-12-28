@@ -71,7 +71,7 @@ render() {
           <button type="submit">
             Sign In
           </button>          
-          <div>
+          <div className="sgnup">
             or <Link to='/signup'>Sign up</Link>
           </div>
           
