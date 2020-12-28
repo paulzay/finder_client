@@ -1,0 +1,22 @@
+.view {
+	text-align: center;
+	padding: 10px 10vw;
+	img {
+		width: 60%;
+	}
+	.make {
+		font-size: 30px;
+	}
+	button {
+		border: 0;
+		padding: 10px;
+		color: #fff;
+		background-color: #ff6239;
+		border-radius: 5px;
+		&:hover {
+			background-color: #fff;
+			color: #ff6239;
+			border: 1px solid #ff6239;
+		}
+	}
+}
