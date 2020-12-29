@@ -1,64 +1,79 @@
-import axios from 'axios';
+import { successToast, errorToast } from '../../utils/toastify';
+   
+export const loginUser = userObj => {
+  return {
+    type: 'LOGIN_USER',
+    payload: userObj
+  }
+}
 
-export const loginSuccess = response => ({
-  type: 'LOGIN_USER_SUCCESS',
-  response,
-});
-export const loginFailure = error => ({
-  type: 'LOGIN_USER_FAILURE',
-  error,
-});
-export const loginUser = (user, history) => dispatch => {
-  dispatch({ type: 'LOGIN_USER' });
-  return axios
-    .post('http://localhost:3001/login/', user, {withCredentials: true})
-    .then(response => {
-      dispatch(loginSuccess(response.user));
-      localStorage.setItem("user", JSON.stringify(response.data.user.username));
-      history.push('/');
+export const logOutUser = () => {
+  return {
+    type: 'LOGOUT_USER'
+  }
+}
+export function loginUserFetch(userInfo) {
+  return dispatch => fetch('http://localhost:3001/login', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userInfo)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error)
+      } else {
+        console.log(data)
+        let user_json = data.user
+        localStorage.setItem("token", data.jwt)
+        dispatch(loginUser(user_json))
+        successToast(`Welcome ${data.user.username}`);
+      }
     })
-    .catch(error => {
-      dispatch(loginFailure(error));
-    });
-};
 
-export const logout = (response) => ({
-  type: 'LOGOUT',
-  response,
-});
-
-export const logoutUser = (user) => dispatch => {
-  return axios
-    .get('http://localhost:3001/logged_in/', user, {withCredentials: true})
-    .then(response => {
-        if (response.data.logged_in) {
-          dispatch(logout())
-          // this.handleLogin(response)
-          console.log('logged out')
-          console.log(response.data)
-        } 
+}
+export function signUpUser(userinfo) {
+  return dispatch => fetch('http://localhost:3001/users/', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userinfo)
+  }).then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error)
+      } else {
+        localStorage.setItem("token", data.jwt)
+        dispatch(loginUser(data.user))
+        successToast(`Welcome ${data.user.username}`);
+      }
     })
-};
+}
 
-export const signupSuccess = response => ({
-  type: 'SIGNUP_SUCCESS',
-  response,
-});
-
-export const signupFailure = error => ({
-  type: 'SIGNUP_FAILURE',
-  error,
-});
-
-export const signUpUser = user => async dispatch => {
-  dispatch({ type: 'SIGNUP_USER' });
-  return axios
-    .post('http://localhost:3001/users', user, {withCredentials: true})
-    .then(response => {
-      dispatch(signupSuccess(response.user));
-      
-    })
-    .catch(error => {
-      dispatch(signupFailure(error));
-    });
-};
+export function fetchLoggedInUser() {
+  return dispatch => {
+    const token = localStorage.token
+    if (token) {
+      return fetch('http://localhost:3001/auto_login', {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+            localStorage.removeItem("token")
+          } else {
+            dispatch(loginUser(data))
+          }
+        })
+    }
+  }
+}
