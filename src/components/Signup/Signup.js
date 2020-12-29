@@ -30,6 +30,12 @@ class Signup extends Component {
           password_confirmation
         },
       });
+      this.setState = { 
+        username: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+     };
       this.redirect()
     }
   };
@@ -102,25 +108,32 @@ render() {
 
 Signup.propTypes = {
   signUpUser: PropTypes.func.isRequired,
-  error: PropTypes.shape({}),
-  signup: PropTypes.shape({}),
+  // error: PropTypes.shape({}),
+  // signup: PropTypes.shape({}),
 };
 
-Signup.defaultProps = {
-  error: {},
-  signup: { isLoading: false },
-};
+// Signup.defaultProps = {
+//   error: {},
+//   signup: { isLoading: false },
+// };
 
-const mapDispatchToProps = () => ({
-  signUpUser,
-});
+// const mapDispatchToProps = () => ({
+//   signUpUser,
+// });
 
-const mapStateToProps = state => ({
-  error: state.signup.error,
-  signup: state.signup,
-});
+// const mapStateToProps = state => ({
+//   error: state.signup.error,
+//   signup: state.signup,
+// });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps(),
-)(Signup);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps(),
+// )(Signup);
+const mapDispatchToProps = dispatch => {
+    return {
+      signUpUser: (userInfo) => dispatch(signUpUser(userInfo))
+    }
+  }
+
+export default connect(null, mapDispatchToProps)(Signup)
