@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {loginUser} from '../../redux/actions/userActions';
+import {loginUserFetch} from '../../redux/actions/userActions';
 import {Link} from 'react-router-dom';
 import './login.scss';
 
@@ -18,7 +18,7 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { loginUser: userLogin, history } = this.props;
+    const { loginUserFetch: userLogin } = this.props;
 
     const { email, password, username } = this.state;
     userLogin(
@@ -29,10 +29,13 @@ class Login extends Component {
           password,
         },
       },
-      history,
-    );
-  };
 
+    );
+    this.redirect()
+  };
+redirect = () => {
+    this.props.history.push('/')
+  }
 handleChange = (event) => {
     const {name, value} = event.target
     this.setState({
@@ -80,29 +83,36 @@ render() {
     );
   }
 }
-export const mapDispatchToProps = () => ({
-  loginUser,
-});
+// export const mapDispatchToProps = () => ({
+//   loginUser,
+// });
 
-export const mapStateToProps = state => ({
-  login: state.login,
-  error: state.login.error,
-});
+// export const mapStateToProps = state => ({
+//   login: state.login,
+//   error: state.login.error,
+// });
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  login: PropTypes.shape({}),
-  error: PropTypes.shape({}),
-  history: PropTypes.shape({}),
-};
+// Login.propTypes = {
+//   loginUser: PropTypes.func.isRequired,
+//   login: PropTypes.shape({}),
+//   error: PropTypes.shape({}),
+//   history: PropTypes.shape({}),
+// };
 
-Login.defaultProps = {
-  history: {},
-  error: {},
-  login: { isLoading: false },
-};
+// Login.defaultProps = {
+//   history: {},
+//   error: {},
+//   login: { isLoading: false },
+// };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps(),
-)(Login);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps(),
+// )(Login);
+const mapDispatchToProps = dispatch => {
+    return {
+      loginUserFetch: (userInfo) => dispatch(loginUserFetch(userInfo))
+    }
+  }
+
+export default connect(null, mapDispatchToProps)(Login);
