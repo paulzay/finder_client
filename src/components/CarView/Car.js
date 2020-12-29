@@ -8,10 +8,31 @@ class Car extends Component {
   UNSAFE_componentWillMount() {
     this.props.getCar(this.props.match.params.id);
   }
-  handleClick = (e) => {
-      e.preventDefault();
-      likeCar(localStorage.getItem('user'),this.props._car.id)
-      console.log('clicked')
+  handleClick = () => {
+    const token = localStorage.getItem('token');
+
+    fetch('http://localhost:3001/favorites', {
+      method: 'POST',
+      body: JSON.stringify({
+        // user_id: `${this.props.state.user.id}`,
+        car_id: `${this.props._car.id}`,
+      }),
+      headers: {
+        'Content-Length': 57,
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: 'same-origin',
+    })
+      // .then(res => res.json()).then(json => {
+      //   history.push('/', { data: json });
+      // })
+      // .catch(error => {
+      //   throw error;
+      // });
+      // e.preventDefault();
+      // likeCar(localStorage.getItem('token'),this.props._car.id)
+      // console.log('clicked')
     }
   render() {
     const {
