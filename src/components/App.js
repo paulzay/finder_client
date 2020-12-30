@@ -1,65 +1,51 @@
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Component } from 'react';
-import axios from 'axios'
-import {Switch, Route} from 'react-router-dom'
+import { connect } from 'react-redux';
+import React,{Component} from 'react';
+import {Switch, Route, BrowserRouter} from 'react-router-dom'
 import Login from '../components/Login/Login';
 import Signup from '../components/Signup/Signup';
 import Cars from '../components/Cars/Cars';
 import Car from '../components/CarView/Car';
 import Nav from '../containers/Nav/Nav';
+import {fetchLoggedInUser} from '../redux/actions/userActions';
+import Favorites from '../containers/Favorites/Favorites';
+import PageNotFound from './pageBlank';
+import Home from './Home';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      isLoggedIn: false, 
-      user: {}
-     };
+class App extends Component{
+
+  componentDidMount(){
+    this.loginStatus()   
   }
-componentDidMount() {
-  this.loginStatus()
-}
-loginStatus = () => {
-  axios.get('http://localhost:3001/logged_in', 
-  {withCredentials: true})    
-.then(response => {
-    if (response.data.logged_in) {
-      this.handleLogin(response)
-      console.log('logged in')
-      console.log(response.data)
-    } else {
-      this.handleLogout()
-    }
-  })
-  .catch(error => console.log('api errors:', error))
+  loginStatus = () =>{
+    this.props.fetchLoggedInUser()
   }
-  
-  handleLogin = (data) => {
-    this.setState({
-      isLoggedIn: true,
-      user: data.user,
-    })
-  }
-  handleLogout = () => {
-    this.setState({
-    isLoggedIn: false,
-    user: {}
-    })
-  }
-  
-  render() {
-    return (
-      <div>
+
+  render(){
+   return (
+    <div>
       <Nav />
-        <Switch>
-          <Route exact path='/' component={Cars}/>
-          <Route exact path='/login' component={Login}/>
-          <Route exact path='/signup' component={Signup}/>
-          <Route exact path="/:id" component={Car} />
-        </Switch>
-      </div>
-    );
+      <Switch>
+        <BrowserRouter>
+          <Route exact path='/' component={Home}/>
+          <Route exact path='/cars' component={Cars}/>
+          <Route path='/login' component={Login}/>
+          <Route path='/signup' component={Signup}/>
+          <Route path="/favorites" component={Favorites} />
+          <Route path="/cars/:id" component={Car} />
+          {/* <Route path="*" component={PageNotFound} /> */}
+        </BrowserRouter>
+      </Switch>
+    </div>
+  );
+}
+}
+
+const mapDispatchToProps = dispatch =>{
+  return{
+    fetchLoggedInUser: () => dispatch(fetchLoggedInUser()),
   }
 }
-export default App;
+
+export default connect(null, mapDispatchToProps)(App);
