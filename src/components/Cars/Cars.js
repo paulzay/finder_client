@@ -16,12 +16,12 @@ function Cars({ cars, getCars }) {
       <ul className="contents">
         {cars.map(car => (
         <Card className="card" key={car.id}>
-          <a href={`/${car.id}`}>
+          <a href={`/cars/${car.id}`}>
             <img className="card-img-top" src={car.image_url} alt="Thumb" />
           </a>
           <div className="card__body">
             <h1>{car.make}</h1>
-            <span><a href={`/${car.id}`}>View Details</a></span>
+            <span><a href={`/cars/${car.id}`}>View Details</a></span>
           </div>
         </Card>))}
       </ul>
