@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom';
 import LoggedInLinks from './LoggedInLinks';
 import LoggedOutLinks from './LoggedOutLinks';
 import './nav.scss';
-// import isLoggedIn from '../../utils'
+import isLoggedIn from '../../utils'
 
-const Nav = ({ login }) => {
+const Nav = ({login}) => {
 
-  const links = login.isLoggedIn ? <LoggedInLinks /> : <LoggedOutLinks />;
+  const links = login || isLoggedIn ? <LoggedInLinks /> : <LoggedOutLinks />;
   return (
     <nav>
       <NavLink className="logo" to="/">AutoFinder</NavLink>
@@ -19,9 +19,8 @@ const Nav = ({ login }) => {
   );
 }
 
-
 const mapStateToProps = state => ({
-  login: state.login,
+  login: state.user.login
 });
 
 export default connect(

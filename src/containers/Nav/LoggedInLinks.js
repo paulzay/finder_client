@@ -2,48 +2,43 @@ import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logoutUser } from '../../redux/actions/userActions';
+import { logOutUser } from '../../redux/actions/userActions';
 import './loggedin.scss';
 
-function LoggedInLinks({ logoutUser: userLogout }){
-  const handleLogout = () => {
-    localStorage.clear();
-    userLogout();
-  };
-
+function LoggedInLinks(){
+  const logOut = ()=>{
+    localStorage.removeItem("token")
+    logOutUser()
+    alert("Successfully logged out!")
+  }
   return (
     <div className="links">
-      <NavLink className="" to="/signup">
-        Profile
+      <NavLink className="" to="/cars">
+        Cars
       </NavLink>
-      <NavLink className="" onClick={handleLogout} to="/">
+      <NavLink className="" to="/favorites">
+        Favorites
+      </NavLink>
+      <NavLink className="" onClick={logOut} to="/">
         Logout
       </NavLink>
     </div>
   )
 }
 LoggedInLinks.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  history: PropTypes.shape({}),
-};
-
-LoggedInLinks.defaultProps = {
-  history: {},
+  logOutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   login: state.loginUser,
-  error: state.login.error,
-
 });
 
 const mapDispatchToProps = () => ({
-  logoutUser,
+  logOutUser,
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps(),
-)(withRouter(LoggedInLinks));
-
+)(LoggedInLinks);
 
