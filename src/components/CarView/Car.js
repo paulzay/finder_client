@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCar, likeCar } from '../../redux/actions/carActions';
+import { getCar } from '../../redux/actions/carActions';
 import './car.scss';
 
 class Car extends Component {
@@ -14,7 +14,6 @@ class Car extends Component {
     fetch('http://localhost:3001/favorites', {
       method: 'POST',
       body: JSON.stringify({
-        // user_id: `${this.props.state.user.id}`,
         car_id: `${this.props._car.id}`,
       }),
       headers: {
@@ -24,15 +23,6 @@ class Car extends Component {
       },
       credentials: 'same-origin',
     })
-      // .then(res => res.json()).then(json => {
-      //   history.push('/', { data: json });
-      // })
-      // .catch(error => {
-      //   throw error;
-      // });
-      // e.preventDefault();
-      // likeCar(localStorage.getItem('token'),this.props._car.id)
-      // console.log('clicked')
     }
   render() {
     const {
