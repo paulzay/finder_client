@@ -9,7 +9,7 @@ const Nav = () => {
   const links = token ? <LoggedInLinks /> : <LoggedOutLinks />;
   return (
     <nav>
-      <NavLink className="logo" to="/">AutoMobiles</NavLink>
+      <NavLink className="logo" to="/cars">AutoMobiles</NavLink>
       <div>
         <ul className="links">{links}</ul>
       </div>
