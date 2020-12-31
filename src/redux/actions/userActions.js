@@ -25,6 +25,7 @@ export function loginUserFetch(userInfo) {
   return dispatch => fetch('https://automobillz.herokuapp.com/login', {
     method: 'POST',
     crossdomain: true,
+    mode: "no-cors",
     headers: {
       'Content-Type': 'application/json',
     },
@@ -46,6 +47,7 @@ export function signUpUser(userinfo) {
   return dispatch => fetch('https://automobillz.herokuapp.com/users/', {
     method: 'POST',
     crossdomain: true,
+    mode: "no-cors",
     headers: {
       'Content-Type': 'application/json',
     },
