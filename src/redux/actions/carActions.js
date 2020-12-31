@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getCars = () => {
   return dispatch => {
-    axios.get('http://localhost:3001/cars', { mode: 'cors' })
+    axios.get('https://automobillz.herokuapp.com/cars', { mode: 'cors' })
       .then(res => {
         const cars = res.data;
         dispatch({
@@ -15,7 +15,7 @@ export const getCars = () => {
 
 export function getCar(id) {
   return dispatch => {
-    axios.get(`http://localhost:3001/cars/${id}`, { mode: 'cors' })
+    axios.get(`https://automobillz.herokuapp.com/${id}`, { mode: 'cors' })
       .then(res => {
         const car = res.data;
         dispatch({

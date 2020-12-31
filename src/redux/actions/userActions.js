@@ -1,19 +1,34 @@
 import { successToast, errorToast } from '../../utils/toastify';
-   
+import axios from 'axios';
+
 export const loginUser = userObj => {
   return {
     type: 'LOGIN_USER',
     payload: userObj
   }
 }
-
-export const logOutUser = () => {
+export const logOut = () => {
   return {
-    type: 'LOGOUT_USER'
+    type: 'LOGOUT_USER',
   }
 }
+export const logOutUser = (dispatch) => {
+  axios({
+    method: 'get',
+    url: 'https://automobillz.herokuapp.com/logout',
+  })
+  .then((response) => {
+    if(response.status === 200) {
+      logOut();
+      console.log('logging out')
+    } else {
+      console.log('error logging out');
+    };
+  });
+}
+
 export function loginUserFetch(userInfo) {
-  return dispatch => fetch('http://localhost:3001/login', {
+  return dispatch => fetch('https://automobillz.herokuapp.com/login', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +50,7 @@ export function loginUserFetch(userInfo) {
 
 }
 export function signUpUser(userinfo) {
-  return dispatch => fetch('http://localhost:3001/users/', {
+  return dispatch => fetch('https://automobillz.herokuapp.com/users/', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

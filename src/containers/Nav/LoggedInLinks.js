@@ -9,17 +9,16 @@ function LoggedInLinks(){
   const logOut = ()=>{
     localStorage.removeItem("token")
     logOutUser()
-    alert("Successfully logged out!")
   }
   return (
     <div className="links">
-      <NavLink className="" to="/cars">
+      <NavLink className="nav-link" to="/cars">
         Cars
       </NavLink>
-      <NavLink className="" to="/favorites">
+      <NavLink className="nav-link" to="/favorites">
         Favorites
       </NavLink>
-      <NavLink className="" onClick={logOut} to="/">
+      <NavLink className="nav-link" onClick={logOut} to="/">
         Logout
       </NavLink>
     </div>
@@ -28,13 +27,13 @@ function LoggedInLinks(){
 LoggedInLinks.propTypes = {
   logOutUser: PropTypes.func.isRequired,
 };
-
+const mapDispatchToProps = dispatch =>{
+  return{
+    logOutUser: ()=>dispatch(logOutUser()),
+  }
+}
 const mapStateToProps = state => ({
   login: state.loginUser,
-});
-
-const mapDispatchToProps = () => ({
-  logOutUser,
 });
 
 export default connect(
