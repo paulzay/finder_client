@@ -1,52 +1,54 @@
+/* eslint-disable react/destructuring-assignment */
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
-import React,{Component} from 'react';
-import {Switch, Route, BrowserRouter} from 'react-router-dom'
-import Login from '../components/Login/Login';
-import Signup from '../components/Signup/Signup';
-import Cars from '../components/Cars/Cars';
-import Car from '../components/CarView/Car';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import Login from './Login/Login';
+import Signup from './Signup/Signup';
+import Cars from './Cars/Cars';
+import Car from './CarView/Car';
 import Nav from '../containers/Nav/Nav';
-import {fetchLoggedInUser} from '../redux/actions/userActions';
+import { fetchLoggedInUser } from '../redux/actions/userActions';
 import Favorites from '../containers/Favorites/Favorites';
 import PageNotFound from './pageBlank';
 import Home from './Home';
 
-class App extends Component{
-
-  componentDidMount(){
-    this.loginStatus()   
-  }
-  loginStatus = () =>{
-    this.props.fetchLoggedInUser()
+class App extends Component {
+  componentDidMount() {
+    this.loginStatus();
   }
 
-  render(){
-   return (
-    <div>
+  loginStatus = () => {
+    this.props.fetchLoggedInUser();
+  }
 
-      <BrowserRouter>
-        <Nav />
-        <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route exact path='/cars' component={Cars}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/signup' component={Signup}/>
-          <Route path="/favorites" component={Favorites} />
-          <Route path="/cars/:id" component={Car} />
-          <Route path="*" component={PageNotFound} />
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
-}
-}
+  render() {
+    return (
+      <div>
 
-const mapDispatchToProps = dispatch =>{
-  return{
-    fetchLoggedInUser: () => dispatch(fetchLoggedInUser()),
+        <BrowserRouter>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/cars" component={Cars} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/favorites" component={Favorites} />
+            <Route path="/cars/:id" component={Car} />
+            <Route path="*" component={PageNotFound} />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
   }
 }
+App.propTypes = {
+  fetchLoggedInUser: PropTypes.func.isRequired,
+};
+const mapDispatchToProps = dispatch => ({
+  fetchLoggedInUser: () => dispatch(fetchLoggedInUser()),
+});
 
 export default connect(null, mapDispatchToProps)(App);

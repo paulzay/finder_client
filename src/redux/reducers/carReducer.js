@@ -1,7 +1,7 @@
 const initialState = {
   cars: [],
-  car: {}
-}
+  car: {},
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -19,4 +19,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

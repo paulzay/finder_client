@@ -1,71 +1,75 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {signUpUser} from '../../redux/actions/userActions';
+import { signUpUser } from '../../redux/actions/userActions';
 import './signup.scss';
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       username: '',
       email: '',
       password: '',
       password_confirmation: '',
-      errors: ''
-     };
+      errors: '',
+    };
   }
+
   handleSubmit = event => {
     event.preventDefault();
-    
+
     const { password: statePassword, password_confirmation: confirmPassword } = this.state;
     if (statePassword === confirmPassword) {
       const { signUpUser: userSignup } = this.props;
-      const {username, email, password, password_confirmation} = this.state
+      const {
+        username, email, password, password_confirmation,
+      } = this.state;
       userSignup({
         user: {
           username,
           email,
           password,
-          password_confirmation
+          password_confirmation,
         },
       });
-      this.setState = { 
+      this.setState = {
         username: '',
         email: '',
         password: '',
         password_confirmation: '',
-     };
-      this.redirect()
+      };
+      this.redirect();
     }
   };
 
-
 redirect = () => {
-    this.props.history.push('/')
-  }
-handleErrors = () => {
-    return (
-      <div>
-        <ul>{this.state.errors.map((error) => {
-          return <li key={error}>{error}</li>
-        })}
-        </ul> 
-      </div>
-    )
-  };
-handleChange = (event) => {
-    const {name, value} = event.target
-    this.setState({
-      [name]: value
-    })
-  };
+  this.props.history.push('/');
+}
+
+handleErrors = () => (
+  <div>
+    <ul>
+      {this.state.errors.map(error => <li key={error}>{error}</li>)}
+    </ul>
+  </div>
+);
+
+handleChange = event => {
+  const { name, value } = event.target;
+  this.setState({
+    [name]: value,
+  });
+};
 
 render() {
-  const {username, email, password, password_confirmation} = this.state
+  const {
+    username, email, password, password_confirmation,
+  } = this.state;
   return (
     <div className="signup">
-      <h1>Sign Up</h1>        
+      <h1>Sign Up</h1>
       <form onSubmit={this.handleSubmit}>
         <input
           placeholder="username"
@@ -81,13 +85,13 @@ render() {
           value={email}
           onChange={this.handleChange}
         />
-        <input 
+        <input
           placeholder="password"
           type="password"
           name="password"
           value={password}
           onChange={this.handleChange}
-        />          
+        />
         <input
           placeholder="password confirmation"
           type="password"
@@ -95,45 +99,23 @@ render() {
           value={password_confirmation}
           onChange={this.handleChange}
         />
-              
+
         <button placeholder="submit" type="submit">
           Sign Up
         </button>
-            
+
       </form>
     </div>
-    );
-  }
+  );
+}
 }
 
 Signup.propTypes = {
   signUpUser: PropTypes.func.isRequired,
-  // error: PropTypes.shape({}),
-  // signup: PropTypes.shape({}),
 };
 
-// Signup.defaultProps = {
-//   error: {},
-//   signup: { isLoading: false },
-// };
+const mapDispatchToProps = dispatch => ({
+  signUpUser: userInfo => dispatch(signUpUser(userInfo)),
+});
 
-// const mapDispatchToProps = () => ({
-//   signUpUser,
-// });
-
-// const mapStateToProps = state => ({
-//   error: state.signup.error,
-//   signup: state.signup,
-// });
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps(),
-// )(Signup);
-const mapDispatchToProps = dispatch => {
-    return {
-      signUpUser: (userInfo) => dispatch(signUpUser(userInfo))
-    }
-  }
-
-export default connect(null, mapDispatchToProps)(Signup)
+export default connect(null, mapDispatchToProps)(Signup);

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,6 +9,7 @@ class Car extends Component {
   UNSAFE_componentWillMount() {
     this.props.getCar(this.props.match.params.id);
   }
+
   handleClick = () => {
     const token = localStorage.getItem('token');
 
@@ -22,11 +24,12 @@ class Car extends Component {
         Authorization: `Bearer ${token}`,
       },
       credentials: 'same-origin',
-    })
-    }
+    });
+  }
+
   render() {
     const {
-      image_url,model, make, year, description
+      image_url, model, make, year, description,
     } = this.props._car;
 
     return (
@@ -36,8 +39,8 @@ class Car extends Component {
         <p>{model}</p>
         <p>{year}</p>
         <p>{description}</p>
-        <div>    
-        <button type="button" onClick={this.handleClick}>Add to favorites </button>
+        <div>
+          <button type="button" onClick={this.handleClick}>Add to favorites </button>
         </div>
       </div>
     );
