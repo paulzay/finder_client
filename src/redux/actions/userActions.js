@@ -64,7 +64,7 @@ export function fetchLoggedInUser() {
   return dispatch => {
     const { token } = localStorage;
     if (token) {
-      return fetch('http://localhost:3001/auto_login', {
+      return fetch('https://automobillz.herokuapp.com/auto_login', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
