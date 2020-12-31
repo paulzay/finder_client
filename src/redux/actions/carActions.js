@@ -13,7 +13,7 @@ export const getCars = () => dispatch => {
 
 export function getCar(id) {
   return dispatch => {
-    axios.get(`https://automobillz.herokuapp.com/${id}`, { mode: 'cors' })
+    axios.get(`https://automobillz.herokuapp.com/cars/${id}`, { mode: 'cors' })
       .then(res => {
         const car = res.data;
         dispatch({

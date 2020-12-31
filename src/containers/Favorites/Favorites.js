@@ -13,7 +13,7 @@ export default class Favorites extends Component {
     const getFaves = [];
     const myFav = [];
     const token = localStorage.getItem('token');
-    const response = fetch('http://localhost:3001/favorites', {
+    const response = fetch('https://automobillz.herokuapp.com/favorites', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export default class Favorites extends Component {
             getFaves.push(element.car_id);
           });
           getFaves.forEach(async element => {
-            const faves = await axios.get(`http://localhost:3001/cars/${element}`);
+            const faves = await axios.get(`https://automobillz.herokuapp.com/cars/${element}`);
             myFav.push(faves.data);
             this.setState({ myfaves: myFav });
           });
