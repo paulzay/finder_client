@@ -24,7 +24,7 @@ export const logOutUser = () => {
 export function loginUserFetch(userInfo) {
   return dispatch => fetch('https://automobillz.herokuapp.com/login', {
     method: 'POST',
-    mode: "no-cors",
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -45,7 +45,7 @@ export function loginUserFetch(userInfo) {
 export function signUpUser(userinfo) {
   return dispatch => fetch('https://automobillz.herokuapp.com/users/', {
     method: 'POST',
-    mode: "no-cors",
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -68,7 +68,7 @@ export function fetchLoggedInUser() {
     if (token) {
       return fetch('https://automobillz.herokuapp.com/auto_login', {
         method: 'GET',
-        crossdomain: true,
+        withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
