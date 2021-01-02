@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCar } from '../../redux/actions/carActions';
+import { getCar } from '../../redux/actions/actionCreators';
 import './car.scss';
 
 class Car extends Component {
@@ -34,14 +34,18 @@ class Car extends Component {
 
     return (
       <div className="view">
-        <img src={image_url} alt="Thumb" />
-        <p className="make">{make}</p>
-        <p>{model}</p>
-        <p>{year}</p>
-        <p>{description}</p>
-        <div>
-          <button type="button" onClick={this.handleClick}>Add to favorites </button>
-        </div>
+        <div className="contain">
+          <div className="car__img">
+            <img src={image_url} alt="Thumb" />
+          </div>
+          <p className="make">{make}</p>
+          <p>{model}</p>
+          <p>{year}</p>
+          <p>{description}</p>
+          <div>
+            <button type="button" onClick={this.handleClick}>Add to favorites </button>
+          </div>
+          </div>
       </div>
     );
   }
@@ -61,7 +65,7 @@ Car.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  _car: state.cars.car,
+  _car: state.car.car,
 });
 
 export default connect(mapStateToProps, {
