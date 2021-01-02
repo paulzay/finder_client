@@ -10,7 +10,7 @@ import Signup from './Signup/Signup';
 import Cars from './Cars/Cars';
 import Car from './CarView/Car';
 import Nav from '../containers/Nav/Nav';
-import { fetchLoggedInUser } from '../redux/actions/userActions';
+import { fetchLoggedInUser } from '../redux/actions/actionCreators';
 import Favorites from '../containers/Favorites/Favorites';
 import PageNotFound from './pageBlank';
 import Home from './Home';
