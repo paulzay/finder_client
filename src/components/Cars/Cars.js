@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCars } from '../../redux/actions/carActions';
+import { getCars } from '../../redux/actions/actionCreators';
 import './car.scss';
 
 function Cars({ cars, getCars }) {

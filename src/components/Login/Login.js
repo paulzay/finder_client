@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { loginUserFetch } from '../../redux/actions/userActions';
+import { loginUserFetch } from '../../redux/actions/actionCreators';
 import './login.scss';
 
 class Login extends Component {

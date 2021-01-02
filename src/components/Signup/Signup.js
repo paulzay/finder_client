@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { signUpUser } from '../../redux/actions/userActions';
+import { signUpUser } from '../../redux/actions/actionCreators';
 import './signup.scss';
 
 class Signup extends Component {

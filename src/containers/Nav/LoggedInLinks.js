@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logOutUser } from '../../redux/actions/userActions';
+import { logOutUser } from '../../redux/actions/actionCreators';
 import './loggedin.scss';
 
 function LoggedInLinks() {
