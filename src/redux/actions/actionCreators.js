@@ -15,7 +15,7 @@ export const logOut = () => ({
 export const logOutUser = () => {
   axios({
     method: 'get',
-    url: 'https://automobillz.herokuapp.com/logout',
+    url: 'https://cors-anywhere.herokuapp.com/https://automobillz.herokuapp.com/logout',
   })
     .then(response => {
       if (response.status === 200) {
@@ -25,7 +25,7 @@ export const logOutUser = () => {
 };
 
 export function loginUserFetch(userInfo) {
-  return dispatch => fetch('https://automobillz.herokuapp.com/login', {
+  return dispatch => fetch('https://cors-anywhere.herokuapp.com/https://automobillz.herokuapp.com/login', {
     method: 'POST',
     withCredentials: true,
     headers: {
@@ -57,7 +57,7 @@ export function loginUserFetch(userInfo) {
     });
 }
 export function signUpUser(userinfo) {
-  return dispatch => fetch('https://automobillz.herokuapp.com/users/', {
+  return dispatch => fetch('https://cors-anywhere.herokuapp.com/https://automobillz.herokuapp.com/users/', {
     method: 'POST',
     withCredentials: true,
     headers: {
