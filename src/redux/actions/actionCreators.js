@@ -1,6 +1,9 @@
 /* eslint-disable */
 import axios from 'axios';
-import { successToast, errorToast } from '../../utils/toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure()
 
 export const loginUser = userObj => ({
   type: 'LOGIN_USER',
@@ -32,13 +35,24 @@ export function loginUserFetch(userInfo) {
   })
     .then(response => response.json())
     .then(data => {
-      if (data.error) {
-        errorToast(data.error);
+      console.log(data)
+      if (data.status === "error") {
+        toast.error(data.message,{
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: false,
+          hideProgressBar: true,
+          pauseOnHover: true,
+        })
       } else {
         const user_json = data.user;
         localStorage.setItem('token', data.jwt);
         dispatch(loginUser(user_json));
-        successToast(`Welcome ${data.user.username}`);
+        toast.success(`Welcome ${data.user.username}`,{
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+        })
       }
     });
 }
@@ -53,11 +67,10 @@ export function signUpUser(userinfo) {
   }).then(r => r.json())
     .then(data => {
       if (data.error) {
-        errorToast(data.error);
+        toast.error(data.error);
       } else {
         localStorage.setItem('token', data.jwt);
         dispatch(loginUser(data.user));
-        successToast(`Welcome ${data.user.username}`);
       }
     });
 }
