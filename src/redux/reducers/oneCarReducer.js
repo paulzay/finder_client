@@ -1,8 +1,8 @@
-// const initialState = {
-//   car: {},
-// };
+const initialState = {
+  car: {},
+};
 
-export default (state = {}, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case 'VIEW_CAR':
       return {

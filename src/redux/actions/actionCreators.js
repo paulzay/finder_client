@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { history} from '../../helpers/index';
 
 toast.configure()
 
@@ -35,7 +36,6 @@ export function loginUserFetch(userInfo) {
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       if (data.status === "error") {
         toast.error(data.message,{
           position: toast.POSITION.TOP_CENTER,
@@ -47,6 +47,8 @@ export function loginUserFetch(userInfo) {
         const user_json = data.user;
         localStorage.setItem('token', data.jwt);
         dispatch(loginUser(user_json));
+        history.push('/cars');
+        window.location.reload();
         toast.success(`Welcome ${data.user.username}`,{
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
@@ -71,34 +73,16 @@ export function signUpUser(userinfo) {
       } else {
         localStorage.setItem('token', data.jwt);
         dispatch(loginUser(data.user));
+        history.push('/cars');
+        window.location.reload();
+        toast.success(`Welcome ${data.user.username}`,{
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+        })
       }
     });
-}
-
-export function fetchLoggedInUser() {
-  return dispatch => {
-    const { token } = localStorage;
-    if (token) {
-      return fetch('https://automobillz.herokuapp.com/auto_login', {
-        method: 'GET',
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          if (data.error) {
-            errorToast(data.error);
-            localStorage.removeItem('token');
-          } else {
-            dispatch(loginUser(data));
-          }
-        });
-    }
-  };
 }
 
 export const getCars = () => dispatch => {
