@@ -29,3 +29,22 @@
     }
   }
 }
+
+@media screen and (max-width: 410px) {
+  .view {
+    border: 1px solid red;
+  }
+
+  .car__img {
+    width: 100vw;
+    margin: 0 auto;
+
+    img {
+      width: 300px !important;
+    }
+  }
+
+  button {
+    width: 300px !important;
+  }
+}
