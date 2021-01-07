@@ -40,13 +40,8 @@ class Signup extends Component {
         password: '',
         password_confirmation: '',
       };
-      this.redirect();
     }
   };
-
-redirect = () => {
-  this.props.history.push('/');
-}
 
 handleErrors = () => (
   <div>
