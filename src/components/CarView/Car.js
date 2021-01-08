@@ -13,7 +13,7 @@ class Car extends Component {
   handleClick = () => {
     const token = localStorage.getItem('token');
 
-    fetch('https://automobillz.herokuapp.com/favorites', {
+    fetch('https://cors-anywhere.herokuapp.com/https://automobillz.herokuapp.com/favorites', {
       method: 'POST',
       body: JSON.stringify({
         car_id: `${this.props._car.id}`,
