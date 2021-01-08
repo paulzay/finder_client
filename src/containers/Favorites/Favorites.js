@@ -13,7 +13,7 @@ export default class Favorites extends Component {
     const getFaves = [];
     const myFav = [];
     const token = localStorage.getItem('token');
-    const response = fetch('https://automobillz.herokuapp.com/favorites', {
+    const response = fetch('https://cors-anywhere.herokuapp.com/https://automobillz.herokuapp.com/favorites', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
