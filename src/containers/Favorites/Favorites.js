@@ -1,6 +1,7 @@
 /* eslint-disable no-console, no-alert */
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 
 export default class Favorites extends Component {
@@ -44,19 +45,18 @@ export default class Favorites extends Component {
 
   render() {
     const { myfaves } = this.state;
-    console.log(this.state);
     return (
 
       <div className="">
         <ul className="contents">
           {myfaves.map(car => (
             <Card className="card" key={car.id}>
-              <a href={`/cars/${car.id}`}>
+              <Link to={`/cars/${car.id}`}>
                 <img className="card-img-top" src={car.image_url} alt="Thumb" />
-              </a>
+              </Link>
               <div className="card__body">
                 <h1>{car.make}</h1>
-                <span><a href={`/cars/${car.id}`}>View Details</a></span>
+                <span><Link to={`/cars/${car.id}`}>View Details</Link></span>
               </div>
             </Card>
           ))}
