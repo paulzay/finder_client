@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import cars from './carReducer';
-import userReducer from './userReducer';
 import car from './oneCarReducer';
+import auth from './auth';
+import message from './messageReducer';
 
 const rootReducer = combineReducers({
   cars,
-  user: userReducer,
+  auth,
+  message,
   car,
 });
 
