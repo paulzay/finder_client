@@ -1,8 +1,11 @@
-/* eslint-disable no-console, no-alert */
+/* eslint-disable */
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
 import { Card } from 'react-bootstrap';
+import axios from 'axios';
+import { getfaves } from '../../redux/actions/actionCreators';
 
 export default class Favorites extends Component {
   constructor(props) {
@@ -10,43 +13,25 @@ export default class Favorites extends Component {
     this.state = { myfaves: [] };
   }
 
-  getfaves = async () => {
-    const getFaves = [];
-    const myFav = [];
-    const token = localStorage.getItem('token');
-    const response = fetch('https://cors-anywhere.herokuapp.com/https://automobillz.herokuapp.com/favorites', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    response.then(resp => resp.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          data.forEach(element => {
-            getFaves.push(element.car_id);
-          });
-          getFaves.forEach(async element => {
-            const faves = await axios.get(`https://automobillz.herokuapp.com/cars/${element}`);
-            myFav.push(faves.data);
-            this.setState({ myfaves: myFav });
-          });
-        }
-      });
-  }
-
   componentDidMount = () => {
-    this.getfaves();
+    getfaves().then(res => {
+      const getFaves = [];
+      const myFav = [];
+      res.data.forEach(element => {
+        getFaves.push(element.car_id);
+      });
+      getFaves.forEach(async element => {
+        const faves = await axios.get(`https://automobillz.herokuapp.com/cars/${element}`);
+        myFav.push(faves.data);
+        this.setState({ myfaves: myFav });
+      });
+    });
   };
 
   render() {
     const { myfaves } = this.state;
+    const { cars } = this.props;
     return (
-
       <div className="">
         <ul className="contents">
           {myfaves.map(car => (
@@ -66,3 +51,17 @@ export default class Favorites extends Component {
     );
   }
 }
+// Favorites.propTypes = {
+//   cars: PropTypes.instanceOf(Object).isRequired,
+//   getCars: PropTypes.func.isRequired,
+// };
+
+// const mapStateToProps = state => ({
+//   cars: state.cars.cars,
+// });
+
+// const mapDispatchToProps = dispatch => ({
+//   getCars: () => dispatch(getCars()),
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

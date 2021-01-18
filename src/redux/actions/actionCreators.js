@@ -2,88 +2,51 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { history} from '../../helpers/index';
 
 toast.configure()
 
-export const loginUser = userObj => ({
-  type: 'LOGIN_USER',
-  payload: userObj,
-});
-export const logOut = () => ({
-  type: 'LOGOUT_USER',
-});
 export const logOutUser = () => {
-  axios({
-    method: 'get',
-    url: 'https://automobillz.herokuapp.com/logout',
-  })
-    .then(response => {
-      if (response.status === 200) {
-        logOut();
-      }
-    });
+  localStorage.removeItem('token');
 };
 
-export function loginUserFetch(userInfo) {
-  return dispatch => fetch('https://automobillz.herokuapp.com/login', {
-    method: 'POST',
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userInfo),
+export const signup = (username, email, password, password_confirmation) => axios
+  .post('https://automobillz.herokuapp.com/users', {
+    username,
+    email,
+    password,
+    password_confirmation 
   })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === "error") {
-        toast.error(data.message,{
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: false,
-          hideProgressBar: true,
-          pauseOnHover: true,
-        })
-      } else {
-        const user_json = data.user;
-        localStorage.setItem('token', data.jwt);
-        dispatch(loginUser(user_json));
-        history.push('/cars');
-        window.location.reload();
-        toast.success(`Welcome ${data.user.username}`,{
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 5000,
-          hideProgressBar: true,
-          pauseOnHover: true,
-        })
-      }
-    });
-}
-export function signUpUser(userinfo) {
-  return dispatch => fetch('https://automobillz.herokuapp.com/users/', {
-    method: 'POST',
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userinfo),
-  }).then(r => r.json())
-    .then(data => {
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        localStorage.setItem('token', data.jwt);
-        dispatch(loginUser(data.user));
-        history.push('/cars');
-        window.location.reload();
-        toast.success(`Welcome ${data.user.username}`,{
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 5000,
-          hideProgressBar: true,
-          pauseOnHover: true,
-        })
-      }
-    });
-}
+    .then(response => {
+    if (response.data.jwt) {
+      localStorage.setItem('token', response.data.jwt);
+    }
+    toast.success(`Welcome ${response.data.user.username}`,{
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 5000,
+      hideProgressBar: true,
+      pauseOnHover: true,
+    })
+    return response.data;
+  });
+  
+export const signin = (username, email, password) => axios
+  .post('https://automobillz.herokuapp.com/login', {
+    username,
+    email,
+    password,
+  })
+  .then(response => {
+    if (response.data.jwt) {
+      localStorage.setItem('token', response.data.jwt);
+    }
+    toast.success(`Welcome ${response.data.user.username}`,{
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 5000,
+      hideProgressBar: true,
+      pauseOnHover: true,
+    })
+    return response.data;
+  });
 
 export const getCars = () => dispatch => {
   axios.get('https://automobillz.herokuapp.com/cars', { mode: 'cors' })
@@ -107,4 +70,15 @@ export function getCar(id) {
         });
       });
   };
+}
+
+const token = localStorage.getItem('token');
+export const getfaves = () => axios.get('https://automobillz.herokuapp.com/favorites', {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+export const mycars = (id) => {
+  axios.get(`https://automobillz.herokuapp.com/cars/${id}`)
 }
