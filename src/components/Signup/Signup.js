@@ -1,98 +1,104 @@
-/* eslint-disable */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+/* eslint-disable max-len, camelcase */
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { signUpUser } from '../../redux/actions/actionCreators';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Spinner from '../Spinner';
+import { SET_MESSAGE } from '../../redux/actions/types';
+import { register } from '../../redux/actions/index';
 import './signup.scss';
 
-class Signup extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
-      errors: '',
-    };
-  }
+toast.configure();
 
-  handleSubmit = event => {
-    event.preventDefault();
+function Signup(props) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [password_confirmation, setPasswordConfirmation] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    const { password: statePassword, password_confirmation: confirmPassword } = this.state;
-    if (statePassword === confirmPassword) {
-      const { signUpUser: userSignup } = this.props;
-      const {
-        username, email, password, password_confirmation,
-      } = this.state;
-      userSignup({
-        user: {
-          username,
-          email,
-          password,
-          password_confirmation,
-        },
-      });
-      this.setState = {
-        username: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-      };
+  const dispatch = useDispatch();
+
+  const handleChange = e => {
+    if (e.target.name === 'username') {
+      setUsername(e.target.value);
+    } else if (e.target.name === 'email') {
+      setEmail(e.target.value);
+    } else if (e.target.name === 'password') {
+      setPassword(e.target.value);
+    } else if (e.target.name === 'password_confirmation') {
+      setPasswordConfirmation(e.target.value);
     }
   };
-
-handleErrors = () => (
-  <div>
-    <ul>
-      {this.state.errors.map(error => <li key={error}>{error}</li>)}
-    </ul>
-  </div>
-);
-
-handleChange = event => {
-  const { name, value } = event.target;
-  this.setState({
-    [name]: value,
-  });
-};
-
-render() {
-  const {
-    username, email, password, password_confirmation,
-  } = this.state;
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (password === password_confirmation) {
+      setLoading(true);
+      dispatch(register(username, email, password, password_confirmation))
+        .then(response => {
+          if ('error' in response) {
+            setLoading(false);
+            toast.error(response.data.message, {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: false,
+              hideProgressBar: true,
+              pauseOnHover: true,
+            });
+          } else {
+            dispatch({
+              type: SET_MESSAGE,
+              payload: '',
+            });
+            props.history.push('/cars');
+          }
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      toast.error('passwords must match', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+      });
+    }
+  };
+  if (loading) {
+    return (<Spinner />);
+  }
   return (
     <div className="signup">
       <h1>Sign Up</h1>
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           placeholder="username"
           type="text"
           name="username"
           value={username}
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
         <input
           placeholder="email"
           type="text"
           name="email"
           value={email}
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
         <input
           placeholder="password"
           type="password"
           name="password"
           value={password}
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
         <input
           placeholder="password confirmation"
           type="password"
           name="password_confirmation"
           value={password_confirmation}
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
 
         <button placeholder="submit" type="submit">
@@ -103,14 +109,10 @@ render() {
     </div>
   );
 }
-}
-
 Signup.propTypes = {
-  signUpUser: PropTypes.func.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  location: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  signUpUser: userInfo => dispatch(signUpUser(userInfo)),
-});
-
-export default connect(null, mapDispatchToProps)(Signup);
+export default Signup;

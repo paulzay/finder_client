@@ -8,10 +8,9 @@ import {
   SET_MESSAGE,
 } from './types';
 
-import AuthService from '../services/auth.service';
+import { signup, signin } from './actionCreators';
 
-export const register = (username, email, password, password_confirmation) => dispatch => AuthService
-  .register(username, email, password, password_confirmation).then(
+export const register = (username, email, password, password_confirmation) => dispatch => signup(username, email, password, password_confirmation).then(
     response => {
       if ('error' in response.data) {
         dispatch({
@@ -55,8 +54,7 @@ export const register = (username, email, password, password_confirmation) => di
     },
   );
 
-export const login = (username, email, password) => dispatch => AuthService
-  .login(username, email, password).then(
+export const login = (username, email, password) => dispatch => signin(username, email, password).then(
     data => {
       if ('user' in data) {
         dispatch({
