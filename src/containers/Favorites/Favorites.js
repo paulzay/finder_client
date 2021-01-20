@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import axios from 'axios';
 
 export default class Favorites extends Component {
   constructor(props) {
@@ -12,23 +10,27 @@ export default class Favorites extends Component {
 
   componentDidMount = () => {
     const token = localStorage.getItem('token');
-    axios.get('https://automobillz.herokuapp.com/favorites', {
+    fetch('https://automobillz.herokuapp.com/favorites', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then(res => {
-      const getFaves = [];
-      const myFav = [];
-      res.data.forEach(element => {
-        getFaves.push(element.car_id);
+      .then(response => response.json())
+      .then(json => {
+        const getFaves = [];
+        const myFav = [];
+        json.forEach(element => {
+          getFaves.push(element.car_id);
+        });
+        getFaves.forEach(element => {
+          fetch(`https://automobillz.herokuapp.com/cars/${element}`)
+            .then(response => response.json())
+            .then(json => {
+              myFav.push(json);
+              this.setState({ myfaves: myFav });
+            });
+        });
       });
-      getFaves.forEach(async element => {
-        const faves = await axios.get(`https://automobillz.herokuapp.com/cars/${element}`);
-        myFav.push(faves.data);
-        this.setState({ myfaves: myFav });
-      });
-    });
   };
 
   render() {

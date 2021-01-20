@@ -6,7 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 toast.configure()
 
 export const logOutUser = () => {
-  localStorage.removeItem('token');
+  return dispatch => {
+    dispatch({
+      type: 'LOGOUT',
+    })
+  };
 };
 
 export const signup = (username, email, password, password_confirmation) => axios
@@ -70,15 +74,4 @@ export function getCar(id) {
         });
       });
   };
-}
-
-const token = localStorage.getItem('token');
-export const getfaves = () => axios.get('https://automobillz.herokuapp.com/favorites', {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-
-export const mycars = (id) => {
-  axios.get(`https://automobillz.herokuapp.com/cars/${id}`)
 }
