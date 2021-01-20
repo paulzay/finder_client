@@ -1,13 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logOutUser } from '../../redux/actions/actionCreators';
 import './loggedin.scss';
 
-function LoggedInLinks() {
+function LoggedInLinks(props) {
   const logOut = () => {
     localStorage.removeItem('token');
-    logOutUser();
+    const { logOutUser: userLogout } = props;
+    userLogout();
   };
   return (
     <div className="links">
@@ -17,21 +19,22 @@ function LoggedInLinks() {
       <NavLink className="nav-link" to="/favorites">
         Favorites
       </NavLink>
-      <NavLink className="nav-link" onClick={logOut} to="/">
+      <NavLink className="nav-link" onClick={logOut} to="/login">
         Logout
       </NavLink>
     </div>
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  logOutUser: () => dispatch(logOutUser()),
-});
-const mapStateToProps = state => ({
-  login: state.loginUser,
+LoggedInLinks.propTypes = {
+  logOutUser: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = () => ({
+  logOutUser,
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps(),
 )(LoggedInLinks);

@@ -5,13 +5,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 toast.configure()
 
-export const logOutUser = () => {
-  return dispatch => {
-    dispatch({
-      type: 'LOGOUT',
-    })
-  };
-};
+// export const logOutUser = () => {
+//   return dispatch => {
+//     dispatch({
+//       type: 'LOGOUT',
+//     })
+//   };
+// };
+
+export const logout = () => ({
+  type: 'LOGOUT',
+});
+export const logOutUser = () => dispatch => dispatch(logout());
 
 export const signup = (username, email, password, password_confirmation) => axios
   .post('https://automobillz.herokuapp.com/users', {
