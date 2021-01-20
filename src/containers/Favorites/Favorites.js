@@ -1,11 +1,8 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import { Card } from 'react-bootstrap';
 import axios from 'axios';
-import { getfaves } from '../../redux/actions/actionCreators';
 
 export default class Favorites extends Component {
   constructor(props) {
@@ -14,7 +11,13 @@ export default class Favorites extends Component {
   }
 
   componentDidMount = () => {
-    getfaves().then(res => {
+    const token = localStorage.getItem('token');
+    axios.get('https://automobillz.herokuapp.com/favorites', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(res => {
       const getFaves = [];
       const myFav = [];
       res.data.forEach(element => {
@@ -30,7 +33,6 @@ export default class Favorites extends Component {
 
   render() {
     const { myfaves } = this.state;
-    const { cars } = this.props;
     return (
       <div className="">
         <ul className="contents">
@@ -51,17 +53,3 @@ export default class Favorites extends Component {
     );
   }
 }
-// Favorites.propTypes = {
-//   cars: PropTypes.instanceOf(Object).isRequired,
-//   getCars: PropTypes.func.isRequired,
-// };
-
-// const mapStateToProps = state => ({
-//   cars: state.cars.cars,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   getCars: () => dispatch(getCars()),
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
