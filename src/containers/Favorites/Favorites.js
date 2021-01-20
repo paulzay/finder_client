@@ -35,23 +35,28 @@ export default class Favorites extends Component {
 
   render() {
     const { myfaves } = this.state;
-    return (
-      <div className="">
-        <ul className="contents">
-          {myfaves.map(car => (
-            <Card className="card" key={car.id}>
-              <Link to={`/cars/${car.id}`}>
-                <img className="card-img-top" src={car.image_url} alt="Thumb" />
-              </Link>
-              <div className="card__body">
-                <h1>{car.make}</h1>
-                <span><Link to={`/cars/${car.id}`}>View Details</Link></span>
-              </div>
-            </Card>
-          ))}
-        </ul>
-      </div>
+    if (myfaves.length > 0) {
+      return (
+        <div className="">
+          <ul className="contents">
+            {myfaves.map(car => (
+              <Card className="card" key={car.id}>
+                <Link to={`/cars/${car.id}`}>
+                  <img className="card-img-top" src={car.image_url} alt="Thumb" />
+                </Link>
+                <div className="card__body">
+                  <h1>{car.make}</h1>
+                  <span><Link to={`/cars/${car.id}`}>View Details</Link></span>
+                </div>
+              </Card>
+            ))}
+          </ul>
+        </div>
 
+      );
+    }
+    return (
+      <h1>You do not have any favorites yet.</h1>
     );
   }
 }

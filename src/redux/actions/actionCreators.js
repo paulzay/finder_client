@@ -75,3 +75,14 @@ export function getCar(id) {
       });
   };
 }
+
+export const AddTofavourite = (CarId) =>  {
+  const token = localStorage.getItem('token');
+  axios.post('https://automobillz.herokuapp.com/favorites', {
+    car_id: CarId,
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

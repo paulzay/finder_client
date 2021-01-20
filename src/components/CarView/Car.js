@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCar } from '../../redux/actions/actionCreators';
+import { getCar, AddTofavourite } from '../../redux/actions/actionCreators';
 import './car.scss';
 
 class Car extends Component {
@@ -10,37 +10,21 @@ class Car extends Component {
     this.props.getCar(this.props.match.params.id);
   }
 
-  handleClick = () => {
-    const token = localStorage.getItem('token');
-
-    fetch('https://automobillz.herokuapp.com/favorites', {
-      method: 'POST',
-      body: JSON.stringify({
-        car_id: `${this.props._car.id}`,
-      }),
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-
   render() {
-    const {
-      image_url, model, make, year, description,
-    } = this.props._car;
+    const { car } = this.props;
 
     return (
       <div className="view">
         <div className="contain">
           <div className="car__img">
-            <img src={image_url} alt="Thumb" />
+            <img src={car.image_url} alt="Thumb" />
           </div>
-          <p className="make">{make}</p>
-          <p>{model}</p>
-          <p>{year}</p>
-          <p>{description}</p>
+          <p className="make">{car.make}</p>
+          <p>{car.model}</p>
+          <p>{car.year}</p>
+          <p>{car.description}</p>
           <div>
-            <button type="button" onClick={this.handleClick}>Add to favorites </button>
+            <button type="button" onClick={() => { AddTofavourite(car.id); }}>Add to favorites </button>
           </div>
           </div>
       </div>
@@ -50,7 +34,7 @@ class Car extends Component {
 Car.propTypes = {
   params: PropTypes.object.isRequired,
   getCar: PropTypes.func.isRequired,
-  _car: PropTypes.shape({
+  car: PropTypes.shape({
     id: PropTypes.number.isRequired,
     make: PropTypes.string.isRequired,
     model: PropTypes.string.isRequired,
@@ -62,7 +46,7 @@ Car.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  _car: state.car.car,
+  car: state.car.car,
 });
 
 export default connect(mapStateToProps, {
