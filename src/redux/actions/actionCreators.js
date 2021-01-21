@@ -5,21 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 toast.configure()
 
-// export const logOutUser = () => {
-//   return dispatch => {
-//     dispatch({
-//       type: 'LOGOUT',
-//     })
-//   };
-// };
-
 export const logout = () => ({
   type: 'LOGOUT',
 });
 export const logOutUser = () => dispatch => dispatch(logout());
 
 export const signup = (username, email, password, password_confirmation) => axios
-  .post('https://automobillz.herokuapp.com/users', {
+  .post('http://localhost:3001/users', {
     username,
     email,
     password,
@@ -47,13 +39,20 @@ export const signin = (username, email, password) => axios
   .then(response => {
     if (response.data.jwt) {
       localStorage.setItem('token', response.data.jwt);
-    }
-    toast.success(`Welcome ${response.data.user.username}`,{
+      toast.success(`Welcome ${response.data.user.username}`,{
       position: toast.POSITION.TOP_CENTER,
       autoClose: 5000,
       hideProgressBar: true,
       pauseOnHover: true,
     })
+    }else {
+      toast.error(response.data.error,{
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 5000,
+      hideProgressBar: true,
+      pauseOnHover: true,
+    }) 
+    }
     return response.data;
   });
 
