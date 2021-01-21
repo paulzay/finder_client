@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { history } from '../../helpers/index';
 
 toast.configure()
 
@@ -21,9 +22,11 @@ export const signup = (username, email, password, password_confirmation) => axio
     if (response.data.jwt) {
       localStorage.setItem('token', response.data.jwt);
     }
-    toast.success(`Welcome ${response.data.user.username}`,{
+    history.push('/login')
+    window.location.reload();
+    toast.success(`Welcome ${response.data.user.username} please sign in`,{
       position: toast.POSITION.TOP_CENTER,
-      autoClose: 5000,
+      autoClose: false,
       hideProgressBar: true,
       pauseOnHover: true,
     })

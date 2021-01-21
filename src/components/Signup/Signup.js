@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Spinner from '../Spinner';
-import { SET_MESSAGE } from '../../redux/actions/types';
+// import { SET_MESSAGE } from '../../redux/actions/types';
 import { register } from '../../redux/actions/index';
 import './signup.scss';
 
@@ -17,7 +17,6 @@ function Signup(props) {
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -36,25 +35,15 @@ function Signup(props) {
     if (password === password_confirmation) {
       setLoading(true);
       dispatch(register(username, email, password, password_confirmation))
-        .then(response => {
-          if ('error' in response) {
-            setLoading(false);
-            toast.error(response.data.message, {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: false,
-              hideProgressBar: true,
-              pauseOnHover: true,
-            });
-          } else {
-            dispatch({
-              type: SET_MESSAGE,
-              payload: '',
-            });
-            props.history.push('/cars');
-          }
+        .then(() => {
+          props.history.push('/login');
         })
         .catch(() => {
           setLoading(false);
+          setUsername('');
+          setEmail('');
+          setPassword('');
+          setPasswordConfirmation('');
         });
     } else {
       toast.error('passwords must match', {
