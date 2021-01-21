@@ -11,7 +11,7 @@ export const logout = () => ({
 export const logOutUser = () => dispatch => dispatch(logout());
 
 export const signup = (username, email, password, password_confirmation) => axios
-  .post('http://localhost:3001/users', {
+  .post('https://automobillz.herokuapp.com/users', {
     username,
     email,
     password,
