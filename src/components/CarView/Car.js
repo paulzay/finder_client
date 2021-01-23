@@ -6,10 +6,23 @@ import { getCar, AddTofavourite } from '../../redux/actions/actionCreators';
 import './car.scss';
 
 class Car extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      disabled: false
+    };
+
+  }
   UNSAFE_componentWillMount() {
     this.props.getCar(this.props.match.params.id);
   }
-
+  handleClick = (event) => {
+    if (this.state.disabled) {
+      return;
+    }
+    AddTofavourite(this.props.car.id)
+    this.setState({ disabled: true });  
+  }
   render() {
     const { car } = this.props;
 
@@ -24,9 +37,11 @@ class Car extends Component {
           <p>{car.year}</p>
           <p>{car.description}</p>
           <div>
-            <button type="button" onClick={() => { AddTofavourite(car.id); }}>Add to favorites </button>
+            <button type="button" onClick={this.handleClick} disabled={this.state.disabled}>
+              {this.state.disabled ? 'Added to favorites ' : 'Add to favorites'}
+            </button>
           </div>
-          </div>
+        </div>
       </div>
     );
   }
