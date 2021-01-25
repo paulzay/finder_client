@@ -8,6 +8,8 @@
 
 The project features authenticated signup and login, ability to view cars and car details. Additionally, users can add a car to favorites and view their own favorited cars only.
 
+Backend repo can be found [here](https://github.com/paulzay/finder_server/)
+
 ## Built with
 
 - Node.js
