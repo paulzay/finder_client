@@ -1,0 +1,21 @@
+.card__body {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+// img {
+// 	// height: 400px;
+// 	// width: 600px;
+// 	object-fit: contain;
+// }
+.contents {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px;
+}
+
+.card {
+  // display: flex;
+  height: 400px;
+  width: 600px;
+}

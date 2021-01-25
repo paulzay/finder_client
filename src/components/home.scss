@@ -1,0 +1,45 @@
+button {
+  background-color: #ec5633;
+  border: 0;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  width: 180px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.banner {
+  background-image: url("https://images.unsplash.com/photo-1550659726-15a0481b49be?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80");
+  width: 100vw;
+  height: 100vh;
+  color: blanchedalmond;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 30px;
+
+  h1 {
+    font-size: 50px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 20px;
+  }
+}
+
+.best {
+  height: 60vh;
+  text-align: center;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+}
